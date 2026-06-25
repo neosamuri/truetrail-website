@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Songs | S2H3">
+  <section class="mx-auto max-w-6xl px-6 py-10">
+    <div class="grid gap-8 border-b border-orange-400/20 pb-8 md:grid-cols-[1fr_220px] md:items-center">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.3em] text-orange-300">
+          S2H3 Songbook
+        </p>
+
+        <h1 class="mt-3 text-4xl font-black sm:text-5xl">Hash Songs</h1>
+
+        <p class="mt-4 max-w-2xl text-stone-300">
+          Traditional Hash House Harrier songs for circle. Hash content, great taste,
+          and better singing.
+        </p>
+      </div>
+
+      <img
+        src="/images/s2h3-logo-512.png"
+        alt="S2H3 logo"
+        class="mx-auto w-40 rounded-full shadow-2xl shadow-orange-950/30 md:w-52"
+      />
+    </div>
+
+    <div class="sticky top-0 z-10 mt-6 border-y border-stone-800 bg-stone-950/95 py-4 backdrop-blur">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center">
+        <input
+          id="song-search"
+          type="search"
+          placeholder="Search by title or lyrics..."
+          class="w-full rounded-xl border border-stone-700 bg-stone-900 px-4 py-3 text-stone-100 placeholder:text-stone-500 focus:border-orange-300 focus:outline-none"
+        />
+
+        <div class="flex gap-2">
+          <button
+            id="open-all"
+            type="button"
+            class="rounded-xl border border-stone-700 px-4 py-3 text-sm font-bold hover:bg-stone-900"
+          >
+            Open all
+          </button>
+
+          <button
+            id="close-all"
+            type="button"
+            class="rounded-xl border border-stone-700 px-4 py-3 text-sm font-bold hover:bg-stone-900"
+          >
+            Close all
+          </button>
+        </div>
+      </div>
+
+      <p id="song-count" class="mt-3 text-sm text-stone-500"></p>
+    </div>
+
+    <div id="songbook" class="mt-8 grid gap-8"></div>
+  </section>
+
+  <script type="module">
+    const songSections = [{"title": "Calling Up The Hares", "description": "Songs used to call up the hares.", "songs": [{"title": "The Hairs Of Dickie Di Do", "lyrics": "CHORUS:\n\nAND THE HAIRS (AND THE HAIRS)\n\nAND THE HAIRS (AND THE HAIRS)\n\nAND THE HAIRS OF HER DICKEY DI-DO\n\nHUNG DOWN TO HER KNEES.\n\nVERSES:\n\nONE BLACK ONE, ONE WHITE ONE\n\nAND ONE WITH A LITTLE SHITE ON\n\nAND ONE WITH A LITTLE LIGHT ON\n\nTO SHOW US THE WAY.\n\nI’VE SMELT IT, I’VE FELT IT, IT’S JUST LIKE BLUE VELVET\n\nYOU’D NEED A COAL MINER TO FIND HER VAGINA\n\nI’VE TOUCHED IT, I’VE LICKED IT, IT TASTES JUST LIKE BRISKET\n\nI FOLDED HER LIPS BACK AND THERE FOUND A SIX PACK\n\nI REACHED INTO HER THING AND THERE FOUND MY CLASS RING\n\nSHE’S NOT A GREAT LOOKER, BUT EVERYONE TOOK HER\n\nI’VE LICKED IT AND KISSED IT, IT TASTES LIKE A BISCUIT.\n\nHER VAGINA WAS SQUISHY, AND SMELLED A BIT FISHY\n\nSHE MIGHT BE FROM NEW HAVEN CUZ THE SHIT WASN’T SHAVEN\n\nHER CAT’S NAME IS BORIS, WHO PLAYS WITH HER CLITORIS\n\nSHE SLEPT WITH A DEMON, WHO DROWNED HER WITH SEMEN\n\nI’VE SEEN IT, I’VE SEEN IT, AND I’VE LAIN RIGHT IN BETWEEN IT.\n\nI STROKED ‘EM AND POKED ‘EM, I ROLLED ‘EM AND SMOKED ‘EM.\n\nHER HAIRS WERE SO TANGLED, HER FIRST BORN WAS STRANGLED\n\nSHE MARRIED AN ITALIAN, WITH BALLS LIKE A STALLION\n\nSHE DIVORCED THE ITALIAN, AND MARRIED THE STALLION\n\nSHE WENT WITH A HASH HOUSE HARRIER, WHO FUCKED HER BUT WOULDN’T MARRY HER."}]}, {"title": "Short Songs", "description": "Quick circle songs and down-down songs.", "songs": [{"title": "Fuck A Duck", "lyrics": "Fuck, Fuck, Fuck a Duck,\nScrew a Kangaroo.\n69 a Porcupine,\nOrgy at the Zoo…\n\n—\n\nFucking drink it Down, Down, Down, Down"}, {"title": "My Dna", "lyrics": "Young Girl,\nI like it when you do down,\nI said, “YOUNG GIRL!”\nWon’t you kneel on the ground,\nI said Young Girl,\nWith your lips full and round,\nOn your knees you make me Happy.\n\n—\n\nI want to spray you with My DNA…\nI want to spray you with My DNA…\nIt’s a present from me,\na gift to all of the girls\nI sure hope you like to wear some facial pearls.\nDrink it down, down, down, Down…"}, {"title": "We Got Virgins", "lyrics": "We’ve got virgins,\nWe’ve got virgins,\n\n—\n\nAt our hash,\nAt our hash,\n\n—\n\nGonna get ’em drunked up,\nGonna get ’em fucked up,\n\n—\n\nDown the hatch,\nUp the ass."}, {"title": "Shitty Trail", "lyrics": "S-H-I, T-T-Y,\nT-R-A-I-L,\nShitty trail, (It sucked!)\nShitty trail, (It blew!)\nI’d rather drink a bucket of warm fucking vomit,\nThan run your shitty trail,\nS-H-I, T-T-Y,\nT-R-A-I-L."}, {"title": "Finger In Your Beer", "lyrics": "How would, you like, my finger in your ear?\nHow would, you like, my finger in your ear?\nNot fucking likely! Not fucking likely! Not fucking likely!\n\n—\n\nHow would, you like, my finger in your rear?\nHow would, you like, my finger in your rear?\nNot fucking likely! Not fucking likely! Not fucking likely!\n\n—\n\nHow would, you like, my finger in your beer?\nHow would, you like, my finger in your beer?\nNot fucking likely! Not fucking likely! Not fucking likely!"}, {"title": "He’S The Meanest", "lyrics": "HE’S THE MEANEST\n\nHE SUCKS THE HORSES PENIS\n\nHES THE MEANEST\n\nHES A HORSES ASS\n\n—\n\nEVERY SINCE HE FOUND IT\n\nALL HE DOES IS POUND IT\n\nHE’S THE MEANEST\n\nHE’S A HORSES ASS"}, {"title": "Here’S To Brother Hasher", "lyrics": "Here’s to brother hasher,\nBother hasher, brother hasher,\nHere’s to brother hasher,\nMay he chug-a-lug.\n\n—\n\nHe’s happy, he’s jolly,\nHe’s fucked up by golly,\nHere’s to brother hasher,\nMay he chug-a-lug.\n\n—\n\nSo drink motherfucker,\nDrink motherfucker,\nDrink motherfucker,\nDrink motherfucker,\n\n—\n\nHere’s to brother hasher,\nMay he chug-a-lug."}, {"title": "My Name Is Jack", "lyrics": "My name is Jack (nah-na-nah-na-nah-na-nah),\nI’m a necrophiliac (nah-na-nah-na-nah-na-nah),\nI fuck dead women (nah-na-nah-na-nah-na-nah),\nAnd I fill ’em full of jism (nah-na-nah-na-nah-na-nah).\nI get frustrated (nah-na-nah-na-nah-na-nah),\nWhen they’re cremated (nah-na-nah-na-nah-na-nah),\nCause try as I must (nah-na-nah-na-nah-na-nah),\nI can’t fuck dust!"}, {"title": "B-I-M-B-O", "lyrics": "B-I-M-B-O,\nB-I-M-B-O,\nB-I-M-B-O,\nAnd BIMBO was her name oh"}, {"title": "Pissanya", "lyrics": "Pissanya, Pissanya, Pissanya,\nIn Russian it means “I love you,”\nIf I had my way I’d pissanya all day,\nPissanya, Pissanya, Pissanya.\n\n—\n\nShittanya, Shittanya, Shittanya,\nIn Russian it means “I adore you,”\nIf I had my way I’d shittanya all day,\nShittanya, shittanya, shittanya.\n\n—\n\nCummanya, Cummanya, Cummanya,\nIn Russian it means “I need you,”\nIf I had my way, I’d Cummanya all day,\nCummanya, Cummanya, Cummanya."}, {"title": "Love Me Tender", "lyrics": "Love me tender, love me sweet,\nWrap your lips around my meat.\nHold me close and watch me grin,\nAs I dribble …"}, {"title": "Masturbation", "lyrics": "Masturbation, he loves masturbation,\nMasturbation, he loves to beat his meat!"}, {"title": "Hot Vagina", "lyrics": "Hot vagina for your breakfast,\nHot vagina for your lunch,\nHot vagina for your dinner,\nIt’s munch, munch, munch, munch, munch.\n\n—\n\nIt’s so tasty and nutritious,\nBite-size and ready to eat,\nSo take a tip, go eat some clit;\nHot vagina can’t be beat."}, {"title": "Tastes Like Shit", "lyrics": "If your girlfriend tastes like shit, flip her over,\nIf your girlfriend tastes like shit, flip her over,\nIf your girlfriend tastes like shit, you’re licking her asshole not her clit,\nIf your girlfriend tastes like shit, flip her over.\n\nVARIANT:\n\nIf your boyfriend tastes like shit, he’s a homo,\nIf your boyfriend tastes like shit, he’s a homo,\nIf your boyfriend tastes like shit, he’s definitely packing it,\nIf your boyfriend tastes like shit, he’s a homo."}, {"title": "Mrs. Murphy", "lyrics": "TAKE IT IN YOUR MOUTH MRS. MURPHY\n\nFOR IT ONLY WEIGHS A QUARTER OF A POUND\n\nIT’S GOT HAIR ON ITS NECK LIKE A TURKEY\n\nAND IT SPITS WHEN YOU RUB IT UP AND DOWN\n\nOH, TAKE IT BETWEEN YOUR LEGS, MRS. MURPHY\n\nIT IS JUST ACHING TO CRAWL INSIDE\n\nIT HAS A HELMET ON ITS HEAD LIKE A SOLDIER\n\nAND IT WILL SHOOT ALL ITS AMMO THEN FUCKING DIE\n\nOH, TAKE IT BETWEEN YOUR BREASTS, MRS. MURPHY\n\nAND LOOK IT STRAIGHT IN ITS ONE EYE\n\nIT WILL LIE AT PEACE BETWEEN YOUR BOSOM\n\nUNTIL FINALLY MILK-TEARS MAKE YOU CRY"}, {"title": "Licking On My Clit (Do Wah Diddy Diddy)", "lyrics": "THERE HE WAS JUST A LICKING ON MY CLIT\n\nSINGING AH AH-AH AH-AH AH-AH AH-AH AH-AH AH\n\nGRABBING MY ASS AND SUCKING ON MY TIT\n\nSINGING AH AH-AH AH-AH AH-AH AH-AH AH-AH AH\n\nHE LICKED HARD (HE LICKED HARD)\n\nHE LICKED SOFT (HE LICKED SOFT)\n\nHE LICKED HARD, HE LICKED SOFT\n\nBUT HE COULDN’T GET ME OFF!"}, {"title": "It’S A Small Dick", "lyrics": "WELL IT’S NOT TOO LONG AND IT’S NOT TOO THINK,\n\nIT GETS HARD TOO SLOW AND IT CUMS TOO QUICK,\n\nIT GETS LOST IN HER TWAT BUT IT’S ALL THAT HE’S GOT,\n\nIT’S A SMALL, SMALL DICK.\n\nIT’S A SMALL DICK AFTER ALL,\n\nIT’S A SMALL DICK AFTER ALL,\n\nALWAYS LIMP FROM ALCOHOL,\n\nIT’S A SMALL, SMALL DICK!"}, {"title": "Wiggle If Her Ass", "lyrics": "OH, THE NIPPLES ON HER TITS\n\nARE AS BIG AS YOUR THUMB\n\nAND THE WIGGLE OF HER ASS\n\nWOULD MAKE A DEAD MAN CUM\n\nSHE’S A MEAN MOTHERFUCKER\n\nSHE’S A GREAT COCK SUCKER\n\nSHE’S A HARRIETTE\n\n THAT’S BUKAKE\n\nWHEN A LOAD HITS YOUR EYE AND SURROUNDED BY GUYS,"}, {"title": "That’S Bukake", "lyrics": "WHEN YOU’RE STUCK TO THE FLOOR AND YOU JUST WANT\n\nSOME MORE …\n\nTHAT’S BUKAKE\n\nWHEN YOUR STOMACH’S ALL WARM CUZ IT’S\n\nCOVERED IN SPERM …\n\nTHAT’S BUKAKE\n\nWHEN YOUR VAGINA IS FREE CUZ YOU’RE\n\nSTOCKED WITH PLAN B ….\n\nTHAT’S BUKAKE"}, {"title": "Ode To Joy", "lyrics": "HOW MUCH BEER HAS HE BEEN DRINKING\n\nHE IS LOOKING REALLY LIT\n\nAS WE STAND HERE ARE WE THINKING\n\nDO WE REALLY GIVE A SHIT\n\nWHO’S THIS WANKER, SO UNSEEMINGLY\n\nTHAT HIS MOM WOULD SURELY FROWN\n\nGRAB THAT BEER AND HOLD IT FIRMLY\n\nAS YOU DRINK IT DOWN, DOWN, DOWN"}, {"title": "Your Hand Was Made To Stroke My Gland", "lyrics": "THIS HAND IS YOUR HAND,\n\nTHIS GLAND IS MY GLAND,\n\nSO RUN IT SLOWLY,\n\nTO MAKE MY THING STAND,\n\nLET’S PLAY FOREVER,\n\nWE’LL CUM TOGETHER,\n\nYOUR HAND WAS MADE TO STROKE MY GLAND!"}, {"title": "A Few Of My Favorite Things", "lyrics": "DILDOS AND VIBRATORS AND VASELINE JELLY,\n\nTHAT’S WHAT I USE TO SET FIRE IN MY BELLY.\n\nIN AND OUT, UP AND DOWN MAKING ME WET\n\nTHESE ARE A FEW OF MY FAVORITE THINGS\n\nMEN ARE USELESS!\n\nI DON’T NEED THEM!\n\nI’M THE BEST I’VE HAD.\n\nI SIMPLY REMEMBER MY FAVORITE THINGS,\n\nAND THAT’S WHEN IT FEELS SO GRAND!"}, {"title": "She’S A Little Sexpot", "lyrics": "SHE’S A LITTLE SEXPOT;\n\nSHORT AND HOT.\n\nHER ARE HER TITTIES;\n\nHERE’S HER G-SPOT.\n\nWHEN SHE GETS HORNY,\n\nHEAR HER SHOUT,\n\n“JUST BEND ME OVER EAT ME OUT!”"}, {"title": "I’Ve Got That Hashing Spirit (I’Ve Got The Joy, Joy, Joy…)", "lyrics": "I’VE GOT THAT HASHING SPIRIT DOWN IN MY HEAD,\n\nDOWN IN MY HEAD, DOWN IN MY HEAD.\n\nI’VE GOT THAT HASHING SPIRIT DOWN IN MY HEAD,\n\nDOWN IN MY HEAD TO STAY.\n\nSHE’S GOT THAT HASHING SPIRIT DEEP IN HER THROAT, ETC . . .\n\nWE’VE GOT THAT HASHING SPIRIT DEEP IN THE WOODS, ETC . . .\n\nWE’VE GOT THAT HASHING SPIRIT ALL OVER US, ETC . . ."}, {"title": "Ball Game", "lyrics": "WHIP IT OUT AT THE BALL GAME,\n\nWAVE IT ROUND AT THE CROWD,\n\nDIP IT IN JELLO AND CRACKERJACK,\n\nI DON’T CARE IF YOU GIVE IT A WHACK,\n\nBECAUSE IT’S – BEAT YOUR MEAT AT THE BALL GAME,\n\nIF YOU DON’T COME IT’S A SHAME,\n\nFOR IT’S ONE, TWO, AND YOU’RE COVERED IN GOO,\n\nAT THE OLD BALL GAME!"}]}, {"title": "Long Songs", "description": "Longer songs for when the circle deserves punishment.", "songs": [{"title": "International Hash Hymn", "lyrics": "SWING LOW, SWEET CHARIOT,\n\nCOMING FOR TO CARRY ME HOME,\n\nSWING LOW, SWEET CHARIOT,\n\nCOMING FOR TO CARRY ME HOME.\n\nI LOOKED OVER JORDAN\n\nAND WHAT DID I SEE,\n\nCOMING FOR TO CARRY ME HOME,\n\nA BAND OF (FUCKIN’) ANGELS COMING AFTER ME,\n\nCOMING FOR TO CARRY ME HOME.\n\nIF YOU GET THERE BEFORE I DO,\n\nCOMING FOR TO CARRY ME HOME,\n\nTELL ALL MY FRIENDS THAT I’M COMING TOO,\n\nCOMING FOR TO CARRY ME HOME.\n\nI’M SOMETIMES UP,\n\nI’M SOMETIMES DOWN\n\nCOMING FOR TO CARRY ME HOME\n\nBUT STILL I KNOW, I’M HEAVEN BOUND\n\nCOMING FOR TO CARRY ME HOME"}, {"title": "Your Mom", "lyrics": "No one…\nFucks like your mom,\nNo one sucks like your mom,\nNo one gives it away for five bucks like your mom,\nAnd yes she’s the best when she’s fornicating,\nOh everyone’s fucking your mom!\n\n—\n\nNo one…\nSounds like your mom,\nNo one pounds like your mom,\nNo one swallows the cum of hash hounds like your mom,\nAnd fucking her’s simpler than masturbating,\nOh everyone’s fucking your mom!\n\n—\n\nNo one…\nCreams like your mom,\nNo one screams like your mom,\nNo one fucks like the whore of my dreams like your mom,\nYou can pick any hole she won’t keep you waiting,\nOh everyone’s fucking your mom!\n\n—\n\nNo one…\nLicks like your mom,\nNo one’s sick like your mom,\nNo one fills up her cunt with those dicks like your mom,\nYou can shit on her tits it’s humiliating,\nOh everyone’s fucking your mom!\n\n—\n\nNo one…\nSluts like your mom,\nNo one struts like your mom,\nNo one takes it all night in the butt like your mom,\nShe’s a tramp and a champ when she’s copulating,\nOh everyone’s fucking your mom!"}, {"title": "Yo Ho", "lyrics": "I met a harriette on trail one day,\nYo Ho! Yo Ho!\nI met a harriette on trail one day,\nYo Ho! Yo Ho!\nI met a harriette on trail one day,\nShe said, “Hey hasher, you fancy a lay?\nGet it in, get it out, quit fucking about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my hand upon her toe,\nYo Ho! Yo Ho!\nI put my hand upon her toe,\nYo Ho! Yo Ho!\nI put my hand upon her toe,\nShe said, “Hey hasher, you’re way too low!\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my hand upon her knee,\nYo Ho! Yo Ho!\nI put my hand upon her knee,\nYo Ho! Yo Ho!\nI put my hand upon her knee,\nShe said, “Hey hasher, quit teasing me!”\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my hand upon her thigh,\nYo Ho! Yo Ho!\nI put my hand upon her thigh,\nYo Ho! Yo Ho!\nI put my hand upon her thigh,\nShe said, “Hey hasher, you’re way too shy!”\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my hand upon her tit,\nYo Ho! Yo Ho!\nI put my hand upon her tit,\nYo Ho! Yo Ho!\nI put my hand upon her tit,\nShe said, “Hey hasher, you’re getting it!”\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my hand upon her twat,\nYo Ho! Yo Ho!\nI put my hand upon her twat,\nYo Ho! Yo Ho!\nI put my hand upon her twat,\nShe said, “Hey hasher, you’ve hit the spot!”\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nI put my dick into her mouth,\nYo Ho! Yo Ho!\nI put my dick into her mouth,\nYo Ho! Yo Ho!\nI put my dick into her mouth,\nShe said, “Mmrphhh mmrfrm fmmrrf mrphhh mmrfrm fmmrrf!”\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nAnd now she’s in a wooden box,\nYo Ho! Yo Ho!\nAnd now she’s in a wooden box,\nYo Ho! Yo Ho!\nAnd now she’s in a wooden box,\nShe died from sucking too many hasher’s cocks!\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!\n\n—\n\nWe dig her up every now and then,\nYo Ho! Yo Ho!\nWe dig her up every now and then,\nYo Ho! Yo Ho!\nWe dig her up every now and then,\nWe fucked her once, we’ll fuck her again!\nGet in, get out, quit fuckin’ about!”\nYo Ho! Yo Ho! Yo Ho!"}, {"title": "Jesus Can’T Go Hashing", "lyrics": "JESUS CAN’T GO HASHING ’CUZ HE’S NAILED UPON THE CROSS,\n\nJESUS CAN’T GO HASHING ’CUZ HE’S NAILED UPON THE CROSS,\n\nJESUS CAN’T GO HASHING ’CUZ HE’S NAILED UPON THE CROSS,\n\nJESUS SAVES, JESUS SAVES, JESUS SAVES.\n\nCHORUS:\n\nFREE BEER FOR ALL THE HASHERS;\n\nFREE BEER FOR ALL THE HASHERS;\n\nFREE BEER FOR ALL THE HASHERS;\n\nJESUS SAVES, JESUS SAVES, JESUS SAVES!\n\n… GO HASHING CUZ HIS FEET ARE TIED TOGETHER!\n\n… GO HASHING ’CUZ HIS DAD KNOWS ALL THE TRAILS!\n\n… GO HASHING ’CAUSE HE’S BUSY GETTING NAILED!\n\n… GO HASHING ’CUZ THE FLOUR FALLS THROUGH HIS HANDS\n\nJESUS DON’T NEED FLOUR ’CUZ HE LAYS THE TRAIL IN BLOOD;\n\n… GO HASHING ’CAUSE JUDAS PISSED HIM OFF!\n\n… GO HASHING ’CAUSE HE’S ONLY GOT 12 FRIENDS!\n\nJESUS CAN’T GET LAID BECAUSE HE HANGS OUT WITH 12 GUYS\n\nMARY CAN’T GO HASHING ‘CUZ SHE’S BUSY FUCKING GOD!\n\nALL THE GIRLS LOVE JESUS ’CAUSE HE’S HUNG LIKE THIS! (SPREAD OUT ARMS)\n\nALL THE GIRLS LOVE JESUS ’CAUSE THEY KNOW HE’LL CUM AGAIN\n\n… GO HASHING ’CAUSE SHIGGY ON HIS HEAD!\n\n… GO HASHING ’CAUSE HIS WOOD IS JUST TOO BIG!\n\n… GO HASHING ’CAUSE HIS GIRLFRIEND IS A WHORE!\n\n… GO HASHING ’CAUSE HE TURNS THE BEER TO WINE!\n\n… GO HASHING ’CAUSE HE’S STUCK BEHIND A ROCK!\n\n… GO HASHING ’CAUSE HE SHORTCUTS ACROSS THE LAKE!\n\n… GO HASHING ’CAUSE A JEW WON’T PAY FIVE BUCKS!\n\n… GO HASHING ’CAUSE HE’S MOWING MY FRONT LAWN!\n\n… GO HASHING ‘CAUSE HE GAVE UP BEER FOR LENT\n\n… GO HASHING CUZ IT’S HARD TO DRAG A CROSS\n\n… GO HASHING CUZ MEL GIBSON OWNS HIS RIGHTS\n\n… GO HASHING ‘CAUSE HE STUCK BEHIND A ROCK\n\n… GO HASHING ‘CAUSE THE MOTHERFUCKER’S DEAD\n\nBUDDHA CAN’T GO HASHING BECAUSE HE’S TOO FUCKING FAT."}, {"title": "Elcamino", "lyrics": "EL CAMINO, EL-EL CAMINO,\n\nEL CAMINO, EL-EL CAMINO,\n\nWELL THE FRONT IS LIKE A CAR,\n\nAND THE BACK IS LIKE A TRUCK,\n\nTHE FRONT IS WHERE YOU DRIVE,\n\nAND THE BACK IS WHERE YOU… FU (CHORUS)\n\nYOU CAN DRIVE IT TO THE BROTHEL,\n\nYOU CAN DRIVE IT TO THE STORE,\n\nTHE FRONT YOU PUT YOUR GROCERIES,\n\nTHE BACK YOU PUT YOUR … WHOR (CHORUS)\n\nWELL THE FRONT IS WHERE YOU FUCK,\n\nAND THE BACK IS WHERE YOU FUCK,\n\nTHE FRONT IS WHERE YOU FUCK\n\nAND THE BACK IS WHERE YOU…FU (CHORUS)\n\nTHE BACK RIDES HIGH,\n\nAND THE FRONT RIDES LOW,\n\nI’LL GIVE YOU A FREE RIDE,\n\nIF YOU GIVE ME A… BLO(CHORUS)\n\nYOU CAN PAY WITH WEED,\n\nOR YOU CAN PAY WITH GAS,\n\nIF YOU DON’T HAVE EITHER,\n\nTHEN YOU CAN PAY WITH… ASS(CHORUS)\n\nYOU CAN TAKE OUT CLASSY LADIES,\n\nYOU CAN TAKE OUT DIRTY SLUTS,\n\nIN THE FRONT YOU KISS THEM SOFTLY,\n\nIN THE BACK YOU TONGUE THEIR… BU(CHORUS)\n\nYOU CAN DRIVE AN AUTOMATIC,\n\nOR YOU CAN DRIVE A STICK,\n\nDOESN’T MATTER HOW YOU DRIVE IT,\n\n‘CUZ YOU’LL STILL SUCK MY… DI (CHORUS)\n\nSHE CAN RIDE IN THE FRONT\n\nIT’S WHERE I KEEP THE BREAD\n\nWHEN SHE’S DONE MAKING SANDWICHES\n\nSHE CAN GIVE ME… HEA (CHORUS)\n\nIN THE FRONT WE GOT SOME BEER\n\nIN THE BACK WE GOT SOME RUM\n\nI’LL KISS HER IN THE FRONT \n\nIN THE BACK I’LL MAKE HER…CU (CHORUS)\n\nYOU CAN TAKE IT TO THE SHOW\n\nYOU CAN TAKE IT TO THE SCENE\n\nBUT IF YOU WANT TO PARK IN BACK\n\nYOU’RE GONNA NEED SOME VASELI…(CHORUS)\n\nIT’S COVERED IN RUST\n\nAND THE DOORS DON’T LOCK\n\nBUT IT’S GOT A FLAT BED\n\nWHERE YOU CAN RIDE MY CO..(CHORUS)\n\nTAKE HER OUT TO DINNER,\n\nGO TO PUTT-PUTT.\n\nFIRST YOU LET HER WIN,\n\nAND THEN YOU DO HER…BU (CHORUS)\n\nIT MAY NOT BE THE FASTEST.\n\nIT MAY NOT BE THE CLEANEST.\n\nBUT YOU WON’T REALLY CARE,\n\n‘CUZ YOU’LL BE SUCKING ON MY…PE (CHORUS)\n\nTHE FRONT IS ALL HYDRAULICS,\n\nAND THE BACK IS ALL FOR SHOCK.\n\nYOU’RE SURE TO FEEL BOTH,\n\nWHILE SHE’S BOUNCING ON YOUR … COC (CHORUS)\n\nCHICKS MIGHT SAY IT’S REALLY GHETTO,\n\nOR THAT YOU GOT NO CLASS.\n\nJUST BEND THEM OVER THE TAILGATE,\n\nAND STICK IT IN THEIR …ASS (CHORUS)"}, {"title": "Woodpecker Song (Tune: Dixie)", "lyrics": "I PUT MY FINGER IN THE WOODPECKER’S HOLE,\n\nAND THE WOODPECKER SAID, “GOD BLESS MY SOUL,\n\nTAKE IT OUT, TAKE IT OUT, TAKE IT OUT, AND TAKE IT OUT!”\n\nI REMOVED MY FINGER FROM THE WOODPECKER’S HOLE,\n\nAND THE WOODPECKER SAID, “GOD BLESS MY SOUL,\n\nPUT IT BACK, PUT IT BACK, PUT IT BACK, PUT IT BACK!”\n\nI REPLACED MY FINGER IN THE WOODPECKERS HOLE,\n\nAND THE WOODPECKER SAID, “GOD BLESS MY SOUL,\n\nTURN IT ROUND, TURN IT ROUND, TURN IT ROUND,\n\nTURN IT ROUND,\n\nI REVOLVED MY FINGER IN THE WOODPECKERS HOLE,\n\nAND THE WOODPECKER SAID, “GOD BLESS MY SOUL,\n\nTURN IT BACK, TURN IT BACK, TURN IT BACK,\n\nTURN IT BACK\n\nI REVERSED MY FINGER FROM THE WOODPECKER’S HOLE,\n\nAND THE WOODPECKER SAID, “GOD BLESS MY SOUL,\n\nIN AND OUT, IN AND OUT, IN AND OUT, IN AND OUT.\n\nI PUT MY FIST IN THE WOODPECKER’S HOLE,\n\nAND THE WOODPECKER SAID, “AHHHHHHHHHHH”\n\nTAKE IT OUT, TAKE IT OUT, TAKE IT OUT, AND TAKE IT OUT!"}, {"title": "Yogi Bear", "lyrics": "THERES A BEAR IN THE DEEP DARK WOODS, YOGI, YOGI,\n\nTHERES A BEAR IN THE DEEP DARK WOODS, YOGI, YOGI,\n\nYOGI YOGI BEAR!! YOGI YOGI BEAR!!\n\nTHERES A BEAR IN THE DEEP DARK WOODS, YOGI, YOGI,\n\nYOGI’S GOT A GIRLFRIEND BEAR, SUZIE, SUZIE,\n\nYOGI’S GOT A GIRLFRIEND BEAR, SUZIE SUZIE BEAR\n\nSUZIE SUZIE BEAR!! SUZIE SUZIE BEAR!!\n\nYOGI’S GOT A GIRLFRIEND BEAR, SUZIE SUZIE BEAR.\n\nSUZIE SHE LIKES WHIPS AND CHAINS, KINKY, KINKY,\n\nSUZIE SHE LIKES WHIPS AND CHAINS, SHE’S KINKY BEAR.\n\nSHES’S A KINKY BEAR!! SHE’S KINKYA BEAR!!\n\nSUZIE LIKES WHIPS AND CHAINS, SHE’S A KINKY BEAR.\n\nSUZIE SHAVES HER PUBIC HAIRS, GRIZLEY, GRIZLEY,\n\nSUZIE SHAVES HER PUBIC HAIRS, SHE’S A GRIZLEY BEAR.\n\nSHE’S A GRIZLEY BEAR!! SHE’S A GRIZLEY BEAR!!\n\nSUZIE SHAVES HER PUBIC HAIRS, SHE’S A GRIZLEY BEAR.\n\nYOGI’S KNOB IS LONG AND GREEN, CUE CUM, CUE CUM,\n\nYOGI’S KNOB IS LONG AND GREEN HE’S A CUE CUM BEAR.\n\nHE’S A CUCUMBEAR!! HE’S A CUCUMBEAR!!\n\nYOGI’S KNOB IS LONG AND GREEN HE’S A CUCUMBEAR.\n\nSUZIE PUT IT IN HER MOUTH, GOBLIN!! GOBLIN!!\n\nSUZIE PUT IT IN HER MOUTH, SHE’S A GOBLIN BEAR.\n\nSHE’S A GOBLIN BEAR!! SHE’S A GOBLIN BEAR!!\n\nSUZIE PUT IT IN HER MOUTH, SHE’S A GOBLIN BEAR!!\n\nYOGI’S GOT A CHEESEY KNOB, CAMIN, CAMIN\n\nYOGI’S GOT A CHEESEY KNOB, HE’S A CAMIN BEAR.\n\nHE’S A CAMIN BEAR!! HE’S A CAMIN BEAR!!\n\nYOGI’S GOT A CHEESEY KNOB, HE’S A CAMIN BEAR.\n\nBOO BOO TURNES UP WITH HIS FRIENDS, GANG BANG, GANG BANG,\n\nBOO BOO TURNS UP WITH HIS FRIENDS, HE’S A GANG BANG BEAR.\n\nHE’S A GANG BANG BEAR!! HE’S A GANG BANG BEAR!!\n\nBOO BOO TURNS UP WITH HIS FRIENDS, HE’S A GANG BANG BEAR.\n\n(SLOW)\n\nNOW I’M HERE ALL ON MY OWN…..LONELY…..LONELY,\n\nNOW I’M HERE ALL ON MY OWN…..I’M A LONELY BEAR.\n\nWHAT CAN I DO ALL ON MY OWN?? LONELY….LONELY,\n\nWHAT CAN I DO ALL ON MY OWN?? I’M A WANKER BEAR!!\n\n(FAST- BACK TO NORMAL)\n\nI’M A WANKER BEAR!! I’M A WANKER BEAR!!\n\nEVERYTIME I’M ON MY OWN…I’M A WANKER BEAR!!\n\nI’M A WANKER BEAR!! I’M A WANKER BEAR!!\n\nEVERYTIME I’M ON MY OWN….I’M A WANKER BEAR!!"}, {"title": "Roll Your Leg Over", "lyrics": "Chorus:\n\nRoll your leg over\n\nRoll your leg over\n\nRoll your leg over,\n\nAnd Fuck me ‘til Dawn\n\nVersus:\n\nIf all the young Bimbos were bricks in a pile\n\nI’d be a mason and lay them in style.\n\nIf all young Wankers were fine silks and laces\n\nAnd I’d be an iron, and sit on their faces\n\nIf all the young Bimbos were sweet fruits and berries  \n\nI’d handle their melons and nibble their cherries \n\nI wish all the Wankers were cannons exploding,\n\nThey’d shoot all night long without ever reloading. \n\nI wish all the Bimbos were like mirror on the car\n\nOur dicks would appear much larger than they are.\n\nIf all the young Wankers were coconuts sweet\n\nI’d suck out their juices and chew on their meat\n\nIf all the young Bimbos were locks on a gate \n\nI’d be a key and insert and rotate\n\nIf all the young Wankers were bottles of beer\n\nI’d give good head and be full of good cheer \n\nI wish all Bimbos were like statues of Venus  \n\nI’d be a Greek with a petrified penis.\n\nIf all the young Wankers were cocks in the hay\n\nI’d be the hen and have a good lay\n\nIf all the young Bimbos were holes in the road,\n\nAnd I’d be a dump truck and dump in my load.\n\nIf Wankers were legs of Kentucky Fried Chicken  \n\nIt would be more than our fingers we’re licking\n\nIf all young Bimbos were like trees in the forest\n\nI’d be a woodsman, and split their clitoris\n\nI wish all Wankers were Chistopher Columbus\n\nThey would find my clit without using a compass. \n\nIf all young Bimbos were like telephone poles\n\nI’d be a squirrel, stuff my nuts in their holes\n\nIf all of our Wankers were skins of fine wine, \n\nI would taste yours then I’ll let you taste mine\n\nIf all young Bimbos were like diamonds and rubies\n\nI’d be a jeweler and polish their boobies.\n\nIf Wankers were sporting good stores at the malls,\n\nI’d swing all their bats and I’d play with their balls.\n\nIf all the young Bimbos were winds of the sea.\n\nI’d be a sail and I’d let them blow me.\n\nIf all of them Wankers would set down their mugs\n\nI’d quench all their thirsts with one taste from my jugs. \n\nIf all them young Bimbos was up for improvement. \n\nI’d give them some help with a ball-bearing movement. \n\nIf all them young Wankers were puppies full grown, \n\nI’d let them know where to bury their bone.\n\nIf all the young Bimbos were sick with infections \n\nI’d be the doctor and give them injections. \n\nIf all the young Wankers were waves in the sea, \n\nI’d stand on the shoreline and let them pound me.\n\nIf all the young Bimbos were B-29’s,\n\nI’d be the fighter, and buzz their behinds.\n\nFor all those young Wankers attempting to woo\n\nYour luck will improve if you bathe and shampoo \n\nIf all the young Bimbos were bottles of brew,\n\nI’d pop their tops and give a good screw.\n\nIf all them young Wankers were cones of ice cream \n\nI’d suck them  and lick them and be quite obscene."}, {"title": "Royals (By Lourde)", "lyrics": "I FOUND A DIAMOND IN YOUR ASS \n\nFOUND A WEDDING RING IN YOUR CRACK-IT WAS SHITTY\n\nTHIS HOLE IS SUCH A MESS\n\nIT’S FILLED WITH SHIT-IT’S A JAM-PACKED BOOTY\n\n——\n\nI’VE SEEN: GOLD TEETH, CRYSTAL, DIAMONDS AND A TIMEPIECE, PENCILS, LEGOS, GERBIL ON A GOLD LEASH-\n\nYOU DON’T CARE-\n\nYOU’VE PUT NASTIER SHIT UP THERE\n\n—-\n\nAND WE SHOULD NEVER DO ANAL—ANALLLLLL\n\nYOU’LL BE SHITTIN PURE BLOOD\n\nTHAT KIND OF BUTTSTUFF’S NOT FOR US \n\nYOU NEED A DIFFERENT KIND OF LOVE\n\n——\n\nI’LL BE YOUR BOOTY RULER —-RUULLERR\n\nYOUR ASS IS SUCH A TRAVESTY(TRAVASSTY)\n\nSO NEXT TIME YOU POOOO-YOU POOOO-YOU POOOOO\n\nI HOPE YOU’LL THINK OF ME."}]}];
+
+    const songbook = document.querySelector("#songbook");
+    const searchInput = document.querySelector("#song-search");
+    const songCount = document.querySelector("#song-count");
+    const openAllButton = document.querySelector("#open-all");
+    const closeAllButton = document.querySelector("#close-all");
+
+    const escapeHtml = (value) =>
+      String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    const render = (query = "") => {
+      const normalizedQuery = query.trim().toLowerCase();
+      let visibleCount = 0;
+
+      const html = songSections
+        .map((section) => {
+          const songs = section.songs.filter((song) => {
+            const haystack = `${song.title} ${song.lyrics}`.toLowerCase();
+            return !normalizedQuery || haystack.includes(normalizedQuery);
+          });
+
+          if (songs.length === 0) return "";
+
+          visibleCount += songs.length;
+
+          return `
+            <section class="rounded-3xl border border-orange-400/20 bg-stone-900 p-5">
+              <div class="flex flex-col gap-2 border-b border-stone-800 pb-4">
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                  ${escapeHtml(section.title)}
+                </p>
+                <p class="text-sm text-stone-400">${escapeHtml(section.description)}</p>
+                <p class="text-xs text-stone-500">${songs.length} song${songs.length === 1 ? "" : "s"}</p>
+              </div>
+
+              <div class="mt-5 grid gap-4">
+                ${songs
+                  .map(
+                    (song) => `
+                      <details class="song rounded-2xl bg-stone-950 p-4">
+                        <summary class="cursor-pointer text-lg font-black text-stone-100 marker:text-orange-300">
+                          ${escapeHtml(song.title)}
+                        </summary>
+
+                        <pre class="mt-4 whitespace-pre-wrap font-sans text-sm leading-relaxed text-stone-300">${escapeHtml(song.lyrics)}</pre>
+                      </details>
+                    `
+                  )
+                  .join("")}
+              </div>
+            </section>
+          `;
+        })
+        .join("");
+
+      songbook.innerHTML =
+        html ||
+        `
+          <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
+            <p class="font-black text-orange-300">No songs found</p>
+            <p class="mt-2 text-stone-300">Try another search.</p>
+          </div>
+        `;
+
+      songCount.textContent = `${visibleCount} song${visibleCount === 1 ? "" : "s"} shown`;
+    };
+
+    searchInput?.addEventListener("input", (event) => {
+      render(event.target.value);
+    });
+
+    openAllButton?.addEventListener("click", () => {
+      document.querySelectorAll("#songbook details").forEach((detail) => {
+        detail.open = true;
+      });
+    });
+
+    closeAllButton?.addEventListener("click", () => {
+      document.querySelectorAll("#songbook details").forEach((detail) => {
+        detail.open = false;
+      });
+    });
+
+    render();
+  </script>
+</BaseLayout>

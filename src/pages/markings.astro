@@ -1,0 +1,185 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const markings = [
+  {
+    image: "/images/markings/TT.png",
+    name: "True Trail",
+    note: "Never Lies, look for next dot"
+  },
+  {
+    image: "/images/markings/ONONE.png",
+    name: "On-One",
+    note: "ON ONE!"
+  },
+  {
+    image: "/images/markings/ONTWO.png",
+    name: "On-Two",
+    note: "ON TWO!"
+  },
+  {
+    image: "/images/markings/ONON.png",
+    name: "On-On",
+    note: "ON-ON! If you don't see a third dot, that's a blow job. Go back to check."
+  },
+  {
+    image: "/images/markings/CHECK.png",
+    name: "Check",
+    note: "Looking in 369 degress for next mark"
+  },
+  {
+    image: "/images/markings/BOOBCHECK.png",
+    name: "Boob Check",
+    note: "Let's see dem titties!"
+  },
+  {
+    image: "/images/markings/DICKCHECK.png",
+    name: "Dick Check",
+    note: "Whip it out!"
+  },
+  {
+    image: "/images/markings/SALMONCHECK.png",
+    name: "Salmon Check",
+    note: "Remember, side to side not up and down!"
+  },
+  {
+    image: "/images/markings/FALSE.png",
+    name: "False Trail",
+    note: "Got back to check"
+  },
+  {
+    image: "/images/markings/YBF.png",
+    name: "You've Been Fucked",
+    note: "Enjoy the walk back to check"
+  },
+  {
+    image: "/images/markings/CHECKBACK.png",
+    name: "Check Back",
+    note: "Trail exists between here and check"
+  },
+  {
+    image: "/images/markings/CHECKBACKDOT.png",
+    name: "Check Back #",
+    note: "Go back # of dots and check from there"
+  },
+  {
+    image: "/images/markings/ADSPLIT.png",
+    name: "Ambler / Dasher Split",
+    note: "Walkers and runners split."
+  },
+  {
+    image: "/images/markings/TESPLIT.png",
+    name: "Turkey / Eagle Split",
+    note: "Short and long trail split."
+  },
+  {
+    image: "/images/markings/MERGE.png",
+    name: "Merge",
+    note: "TE and AD splits merge back to one pack"
+  },
+  {
+    image: "/images/markings/ALLSONG.png",
+    name: "All Song",
+    note: "Wait for everyone and sing a song. If on split only wait for your pack half."
+  },
+  {
+    image: "/images/markings/SONGCHECK.png",
+    name: "Song Check",
+    note: "Sing a song and move one"
+  },
+  {
+    image: "/images/markings/FISHHOOK.png",
+    name: "Fish Hook",
+    note: "Grab that beer and bring it to the DFL"
+  },
+  {
+    image: "/images/markings/BEERCHECK.png",
+    name: "Beer Check",
+    note: "Mid-trail beer stop."
+  },
+  {
+    image: "/images/markings/BEERNEAR.png",
+    name: "Beer Near",
+    note: "Beer is close."
+  },
+  {
+    image: "/images/markings/ONIN.png",
+    name: "On-In",
+    note: "Finish."
+  }
+];
+
+---
+
+<BaseLayout title="Trail Markings | S2H3">
+  <section class="mx-auto max-w-6xl px-6 py-10">
+    <div class="grid gap-8 border-b border-orange-400/20 pb-8 md:grid-cols-[1fr_220px] md:items-center">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.3em] text-orange-300">
+          S2H3 Trail Guide
+        </p>
+
+        <h1 class="mt-3 text-4xl font-black sm:text-5xl">Trail Markings</h1>
+
+        <p class="mt-4 max-w-2xl text-stone-300">
+          Follow flour, chalk, arrows, dots, lies, bad decisions, and whoever
+          looks like they know where they’re going.
+        </p>
+      </div>
+
+      <img
+        src="/images/s2h3-logo-512.png"
+        alt="S2H3 logo"
+        class="mx-auto w-40 rounded-full shadow-2xl shadow-orange-950/30 md:w-52"
+      />
+    </div>
+
+    <div class="mt-8 rounded-2xl border border-orange-400/20 bg-stone-900 p-5">
+      <h2 class="text-2xl font-black text-orange-300">How trail works</h2>
+      <p class="mt-3 text-stone-300">
+        Marks are usually laid in flour, chalk, or whatever the hares had left
+        in the car. Three dots generally means you are on trail. Checks
+        mean start looking all over.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+{markings.map((marking) => (
+  <article class="rounded-2xl border border-orange-400/20 bg-stone-900 p-5">
+    <div class="flex items-center gap-4">
+      <img
+        src={marking.image}
+        alt={marking.name}
+        class="h-32 w-32 rounded-lg bg-white object-contain p-2"
+      />
+
+      <div>
+        <h3 class="text-xl font-black">
+          {marking.name}
+        </h3>
+
+        <p class="mt-2 text-stone-300">
+          {marking.note}
+        </p>
+      </div>
+    </div>
+  </article>
+))}
+    </div>
+
+    <div class="mt-8 rounded-2xl border border-orange-400/20 bg-stone-900 p-5">
+      <h2 class="text-2xl font-black text-orange-300">Important notes</h2>
+
+      <ul class="mt-4 grid gap-3 text-stone-300">
+        <li>
+          <strong>Don’t assume.</strong> Local traditions vary. Listen to the
+          hare/RA before trail.
+        </li>
+        <li>
+          <strong>Know your limits.</strong> Shortcutting is a proud hashing
+          tradition.
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

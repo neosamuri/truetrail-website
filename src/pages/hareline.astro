@@ -1,0 +1,281 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Hare Line | S2H3">
+  <section class="mx-auto max-w-5xl px-6 py-10">
+    <h1 class="text-4xl font-black">Hare Line</h1>
+    <p class="mt-3 text-stone-300">Upcoming Sloppy Saturday trails.</p>
+
+    <div id="hareline-events" class="mt-8 grid gap-5">
+      <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
+        <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+          Loading Hare Line...
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+
+    import Papa from "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/+esm";
+
+    const SHEET_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSeOtc-wh6amahFVCZqn7oXXAwNgM_B9rwRzH8kzVxH2lATSnokc6d4I6tW_wpW4WDjRqaR_r4iksX5/pub?gid=0&single=true&output=csv";
+
+    const clean = (value) => String(value || "").trim();
+
+    const escapeHtml = (value) =>
+      clean(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    const parseTime = (time) => {
+      if (!time) return null;
+      const parsedTime = new Date(`January 1, 2000 ${clean(time)}`);
+      return isNaN(parsedTime.getTime()) ? null : parsedTime;
+    };
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const parsedDate = new Date(`${clean(date)}T12:00:00`);
+      if (isNaN(parsedDate.getTime())) return clean(date);
+      return parsedDate.toLocaleDateString("en-CA", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    };
+
+    const formatTimeFromDate = (date) =>
+      date.toLocaleTimeString("en-CA", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+    const formatTime = (time) => {
+      const parsedTime = parseTime(time);
+      return parsedTime ? formatTimeFromDate(parsedTime) : clean(time);
+    };
+
+    const addMinutes = (time, minutesToAdd) => {
+      const parsedTime = parseTime(time);
+      if (!parsedTime) return clean(time);
+      parsedTime.setMinutes(parsedTime.getMinutes() + minutesToAdd);
+      return formatTimeFromDate(parsedTime);
+    };
+
+    async function getEvents() {
+      const response = await fetch(SHEET_URL);
+      const csv = await response.text();
+      const parsed = Papa.parse(csv, {
+        header: true,
+        skipEmptyLines: true,
+      });
+
+      return parsed.data
+        .filter((event) => clean(event.published).toUpperCase() === "TRUE")
+        .sort((a, b) => clean(a.date).localeCompare(clean(b.date)));
+    }
+
+    async function getRsvpStats(rsvpResponseCsv) {
+      const url = clean(rsvpResponseCsv);
+
+      if (!url) {
+        return null;
+      }
+
+      try {
+        const response = await fetch(url);
+        const csv = await response.text();
+
+        const parsed = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+        });
+
+        const uniqueNames = new Set();
+
+        parsed.data.forEach((row) => {
+          const name = clean(row["Hasher Name"]);
+          if (!name) return;
+          uniqueNames.add(name.toLowerCase());
+        });
+
+        return {
+          total: uniqueNames.size,
+        };
+      } catch {
+        return null;
+      }
+    }
+
+    const renderRsvpStats = (stats) => {
+      if (!stats) return "";
+
+      return `
+        <div class="mt-5 rounded-2xl border border-orange-400/20 bg-stone-950 p-4">
+          <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+            ${stats.total} ${stats.total === 1 ? "Hasher" : "Hashers"} Cumming
+          </p>
+        </div>
+      `;
+    };
+
+    async function renderEventCard(event) {
+      const hasDirections = clean(event.mapUrl) !== "";
+      const hasPaypal = clean(event.paypalUrl) !== "";
+      const hasRsvp = clean(event.rsvpUrl) !== "";
+      const rsvpStats = await getRsvpStats(event.rsvpResponseCsv);
+
+      return `
+        <article class="rounded-2xl border border-orange-400/20 bg-stone-900 p-5">
+          <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">Trail #${escapeHtml(event.trailNumber)}</p>
+          <h2 class="mt-2 text-2xl font-black">${escapeHtml(event.title)}</h2>
+          <p class="mt-2 text-stone-300">${escapeHtml(event.description)}</p>
+
+          ${renderRsvpStats(rsvpStats)}
+
+          <dl class="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+            <div><dt class="text-stone-500">Date</dt><dd class="font-bold">${formatDate(event.date)}</dd></div>
+            <div><dt class="text-stone-500">Pack Gathers</dt><dd class="font-bold">${formatTime(event.time)}</dd></div>
+            <div><dt class="text-stone-500">Hares Away</dt><dd class="font-bold">${addMinutes(event.time, 15)}</dd></div>
+            <div><dt class="text-stone-500">On Out</dt><dd class="font-bold">${addMinutes(event.time, 30)}</dd></div>
+            <div><dt class="text-stone-500">Location</dt><dd class="font-bold">${escapeHtml(event.locationName) || "TBA"}</dd><dd class="text-stone-400">${escapeHtml(event.address)}</dd></div>
+            <div><dt class="text-stone-500">Hares</dt><dd class="font-bold">${escapeHtml(event.hares) || "TBA"}</dd></div>
+            <div><dt class="text-stone-500">Theme</dt><dd class="font-bold">${escapeHtml(event.theme) || "TBA"}</dd></div>
+            <div><dt class="text-stone-500">Hash Cash</dt><dd class="font-bold">$${escapeHtml(event.hashCash)}</dd></div>
+          </dl>
+
+          ${
+            hasDirections || hasPaypal || hasRsvp
+              ? `
+                <div class="mt-6 flex flex-wrap gap-3">
+                  ${
+                    hasRsvp
+                      ? `<a href="${escapeHtml(event.rsvpUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-orange-500 px-4 py-2 font-bold text-stone-950 hover:bg-orange-400">I'm Cumming</a>`
+                      : ""
+                  }
+                  ${
+                    hasDirections
+                      ? `<a href="${escapeHtml(event.mapUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-stone-700 px-4 py-2 font-bold hover:bg-stone-800">Get Directions</a>`
+                      : ""
+                  }
+                  ${
+                    hasPaypal
+                      ? `<a href="${escapeHtml(event.paypalUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-stone-700 px-4 py-2 font-bold hover:bg-stone-800">Pay Hash Cash</a>`
+                      : ""
+                  }
+                </div>
+              `
+              : ""
+          }
+        </article>
+      `;
+    }
+
+    async function renderEvents(events) {
+      const container = document.querySelector("#hareline-events");
+
+      if (!events.length) {
+        container.innerHTML = `
+          <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
+            <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">No trails posted</p>
+            <h2 class="mt-3 text-2xl font-black">No published hashes yet.</h2>
+            <p class="mt-3 text-stone-300">Check back soon.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const getEventDate = (event) => {
+        const eventDate = new Date(`${clean(event.date)}T00:00:00`);
+        return isNaN(eventDate.getTime()) ? null : eventDate;
+      };
+
+      const upcomingEvents = events
+        .filter((event) => {
+          const eventDate = getEventDate(event);
+          return eventDate && eventDate >= today;
+        })
+        .slice(0, 4);
+
+      const pastEvents = events
+        .filter((event) => {
+          const eventDate = getEventDate(event);
+          return eventDate && eventDate < today;
+        })
+        .reverse();
+
+      const upcomingCards = await Promise.all(
+        upcomingEvents.map((event) => renderEventCard(event))
+      );
+
+      const pastCards = await Promise.all(
+        pastEvents.map((event) => renderEventCard(event))
+      );
+
+      const upcomingSection =
+        upcomingEvents.length > 0
+          ? `
+            <section class="grid gap-5">
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                  Upcoming Trails
+                </p>
+                <h2 class="mt-2 text-2xl font-black">Next 4 Hashes</h2>
+              </div>
+              ${upcomingCards.join("")}
+            </section>
+          `
+          : `
+            <section class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
+              <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                Upcoming Trails
+              </p>
+              <h2 class="mt-3 text-2xl font-black">No upcoming hashes posted.</h2>
+              <p class="mt-3 text-stone-300">Check back soon.</p>
+            </section>
+          `;
+
+      const pastSection =
+        pastEvents.length > 0
+          ? `
+            <section class="mt-10 grid gap-5 border-t border-orange-400/20 pt-8">
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                  Past Trails
+                </p>
+                <h2 class="mt-2 text-2xl font-black">Recent History</h2>
+              </div>
+              ${pastCards.join("")}
+            </section>
+          `
+          : "";
+
+      container.innerHTML = `
+        ${upcomingSection}
+        ${pastSection}
+      `;
+    }
+
+    getEvents()
+      .then(renderEvents)
+      .catch(() => {
+        document.querySelector("#hareline-events").innerHTML = `
+          <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
+            <h2 class="text-2xl font-black">Could not load Hare Line</h2>
+            <p class="mt-3 text-stone-300">Try refreshing the page.</p>
+          </div>
+        `;
+      });
+  </script>
+</BaseLayout>

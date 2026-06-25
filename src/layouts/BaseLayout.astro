@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+
+const { title = "S2H3 | Sloppy Saturday Hash House Harriers" } = Astro.props;
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Hare Line", href: "/hareline" },
+  { label: "About", href: "/about" },
+  { label: "Trail Markings", href: "/markings" },
+  { label: "Songs", href: "/songs" },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+
+    <meta name="description" content="Sloppy Saturday Hash House Harriers. A drinking club with a running problem." />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Trails, beer, shiggy, songs, and questionable decisions on Saturdays." />
+    <meta property="og:image" content="/images/s2h3-og-image.png" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  </head>
+
+  <body class="min-h-screen bg-stone-950 text-stone-100">
+    <header class="border-b border-orange-400/20 bg-stone-950">
+      <div class="mx-auto max-w-6xl px-5 py-4">
+        <div class="flex items-center justify-between gap-4">
+          <a href="/" class="flex items-center gap-3">
+            <img src="/images/s2h3-icon-512.png" alt="S2H3 logo" class="h-12 w-12 rounded-full" />
+            <span class="flex flex-col leading-tight">
+              <span class="text-xl font-black tracking-tight text-orange-300">S2H3</span>
+              <span class="text-xs uppercase tracking-[0.25em] text-stone-400">Sloppy Saturday H3</span>
+            </span>
+          </a>
+        </div>
+
+        <nav class="mt-4 flex flex-wrap gap-3 text-sm font-bold text-stone-300">
+          {navItems.map((item) => (
+            <a href={item.href} class="rounded-full border border-stone-800 px-3 py-2 hover:border-orange-300 hover:text-orange-300">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-orange-400/20 bg-stone-950 px-5 py-8 text-sm text-stone-500">
+      <div class="mx-auto max-w-6xl">
+        <p>S2H3 is an adult social hashing group. Participate at your own risk. On-On!</p>
+      </div>
+    </footer>
+  </body>
+</html>
