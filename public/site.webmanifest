@@ -1,11 +1,6 @@
 {
-  "name": "S2H3",
-  "short_name": "S2H3",
-  "description": "Sloppy Saturday Hash House Harriers",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0c0a09",
-  "theme_color": "#f97316",
+  "name": "True Trail Hash House Harriers",
+  "short_name": "T2H3",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -17,5 +12,8 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#000000",
+  "background_color": "#09090b",
+  "display": "standalone"
 }

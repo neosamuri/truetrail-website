@@ -2,14 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Hare Line | S2H3">
-  <section class="mx-auto max-w-5xl px-6 py-10">
-    <h1 class="text-4xl font-black">Hare Line</h1>
-    <p class="mt-3 text-stone-300">Upcoming Sloppy Saturday trails.</p>
+<BaseLayout title="Hare Line | T2H3">
+  <section class="mx-auto max-w-6xl px-6 py-10">
+    <div class="border-b border-red-700/30 pb-8">
+      <p class="text-sm font-black uppercase tracking-[0.3em] text-teal-300">
+        True Trail
+      </p>
+      <h1 class="mt-3 text-4xl font-black text-white sm:text-5xl">Hare Line</h1>
+      <p class="mt-3 text-zinc-300">Upcoming True Trail hashes.</p>
+    </div>
 
     <div id="hareline-events" class="mt-8 grid gap-5">
-      <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
-        <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+      <div class="rounded-2xl border border-red-600/20 bg-zinc-900 p-6">
+        <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">
           Loading Hare Line...
         </p>
       </div>
@@ -21,7 +26,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     import Papa from "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/+esm";
 
     const SHEET_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSeOtc-wh6amahFVCZqn7oXXAwNgM_B9rwRzH8kzVxH2lATSnokc6d4I6tW_wpW4WDjRqaR_r4iksX5/pub?gid=0&single=true&output=csv";
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRiPjzlw_BJmHOllbHmOLWwtTfMnQ5QdECoNPFunNxrl2x6U0RQWl7cv6CYDdmyk_8fqRSb56kKJmqf/pub?gid=0&single=true&output=csv";
 
     const clean = (value) => String(value || "").trim();
 
@@ -83,92 +88,45 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         .sort((a, b) => clean(a.date).localeCompare(clean(b.date)));
     }
 
-    async function getRsvpStats(rsvpResponseCsv) {
-      const url = clean(rsvpResponseCsv);
-
-      if (!url) {
-        return null;
-      }
-
-      try {
-        const response = await fetch(url);
-        const csv = await response.text();
-
-        const parsed = Papa.parse(csv, {
-          header: true,
-          skipEmptyLines: true,
-        });
-
-        const uniqueNames = new Set();
-
-        parsed.data.forEach((row) => {
-          const name = clean(row["Hasher Name"]);
-          if (!name) return;
-          uniqueNames.add(name.toLowerCase());
-        });
-
-        return {
-          total: uniqueNames.size,
-        };
-      } catch {
-        return null;
-      }
-    }
-
-    const renderRsvpStats = (stats) => {
-      if (!stats) return "";
-
-      return `
-        <div class="mt-5 rounded-2xl border border-orange-400/20 bg-stone-950 p-4">
-          <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
-            ${stats.total} ${stats.total === 1 ? "Hasher" : "Hashers"} Cumming
-          </p>
-        </div>
-      `;
-    };
-
     async function renderEventCard(event) {
       const hasDirections = clean(event.mapUrl) !== "";
       const hasPaypal = clean(event.paypalUrl) !== "";
-      const hasRsvp = clean(event.rsvpUrl) !== "";
-      const rsvpStats = await getRsvpStats(event.rsvpResponseCsv);
+      const hasFacebook = clean(event.facebookUrl) !== "";
 
       return `
-        <article class="rounded-2xl border border-orange-400/20 bg-stone-900 p-5">
-          <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">Trail #${escapeHtml(event.trailNumber)}</p>
-          <h2 class="mt-2 text-2xl font-black">${escapeHtml(event.title)}</h2>
-          <p class="mt-2 text-stone-300">${escapeHtml(event.description)}</p>
-
-          ${renderRsvpStats(rsvpStats)}
+        <article class="rounded-2xl border border-red-600/20 bg-zinc-900 p-5 shadow-xl shadow-black/20">
+          <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">Trail #${escapeHtml(event.trailNumber)}</p>
+          <h2 class="mt-2 text-2xl font-black text-white">${escapeHtml(event.title)}</h2>
+          <p class="mt-2 text-zinc-300">${escapeHtml(event.description)}</p>
 
           <dl class="mt-5 grid gap-3 text-sm sm:grid-cols-2">
-            <div><dt class="text-stone-500">Date</dt><dd class="font-bold">${formatDate(event.date)}</dd></div>
-            <div><dt class="text-stone-500">Pack Gathers</dt><dd class="font-bold">${formatTime(event.time)}</dd></div>
-            <div><dt class="text-stone-500">Hares Away</dt><dd class="font-bold">${addMinutes(event.time, 15)}</dd></div>
-            <div><dt class="text-stone-500">On Out</dt><dd class="font-bold">${addMinutes(event.time, 30)}</dd></div>
-            <div><dt class="text-stone-500">Location</dt><dd class="font-bold">${escapeHtml(event.locationName) || "TBA"}</dd><dd class="text-stone-400">${escapeHtml(event.address)}</dd></div>
-            <div><dt class="text-stone-500">Hares</dt><dd class="font-bold">${escapeHtml(event.hares) || "TBA"}</dd></div>
-            <div><dt class="text-stone-500">Theme</dt><dd class="font-bold">${escapeHtml(event.theme) || "TBA"}</dd></div>
-            <div><dt class="text-stone-500">Hash Cash</dt><dd class="font-bold">$${escapeHtml(event.hashCash)}</dd></div>
+            <div><dt class="text-zinc-500">Date</dt><dd class="font-bold text-white">${formatDate(event.date)}</dd></div>
+            <div><dt class="text-zinc-500">Pack Gathers</dt><dd class="font-bold text-white">${formatTime(event.time)}</dd></div>
+            <div><dt class="text-zinc-500">Hares Away</dt><dd class="font-bold text-white">${addMinutes(event.time, 15)}</dd></div>
+            <div><dt class="text-zinc-500">On Out</dt><dd class="font-bold text-white">${addMinutes(event.time, 30)}</dd></div>
+            <div><dt class="text-zinc-500">Location</dt><dd class="font-bold text-white">${escapeHtml(event.locationName) || "TBA"}</dd><dd class="text-zinc-400">${escapeHtml(event.address)}</dd></div>
+            <div><dt class="text-zinc-500">Hares</dt><dd class="font-bold text-white">${escapeHtml(event.hares) || "TBA"}</dd></div>
+            <div><dt class="text-zinc-500">Theme</dt><dd class="font-bold text-white">${escapeHtml(event.theme) || "TBA"}</dd></div>
+            <div><dt class="text-zinc-500">Hash Cash</dt><dd class="font-bold text-white">$${escapeHtml(event.hashCash)}</dd></div>
           </dl>
 
           ${
-            hasDirections || hasPaypal || hasRsvp
+            hasDirections || hasPaypal || hasFacebook
               ? `
                 <div class="mt-6 flex flex-wrap gap-3">
                   ${
-                    hasRsvp
-                      ? `<a href="${escapeHtml(event.rsvpUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-orange-500 px-4 py-2 font-bold text-stone-950 hover:bg-orange-400">I'm Cumming</a>`
+                    hasFacebook
+                      ? `<a href="${escapeHtml(event.facebookUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-500">Facebook Event</a>`
                       : ""
                   }
                   ${
                     hasDirections
-                      ? `<a href="${escapeHtml(event.mapUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-stone-700 px-4 py-2 font-bold hover:bg-stone-800">Get Directions</a>`
+                      ? `<a href="${escapeHtml(event.mapUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-teal-400 px-4 py-2 font-bold text-teal-300 hover:bg-teal-300 hover:text-black">Get Directions</a>`
                       : ""
                   }
                   ${
                     hasPaypal
-                      ? `<a href="${escapeHtml(event.paypalUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-stone-700 px-4 py-2 font-bold hover:bg-stone-800">Pay Hash Cash</a>`
+                      ? `<a href="${escapeHtml(event.paypalUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-zinc-700 px-4 py-2 font-bold text-zinc-100 hover:bg-zinc-800">Pay Hash Cash</a>`
                       : ""
                   }
                 </div>
@@ -184,10 +142,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       if (!events.length) {
         container.innerHTML = `
-          <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
-            <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">No trails posted</p>
-            <h2 class="mt-3 text-2xl font-black">No published hashes yet.</h2>
-            <p class="mt-3 text-stone-300">Check back soon.</p>
+          <div class="rounded-2xl border border-red-600/20 bg-zinc-900 p-6">
+            <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">No trails posted</p>
+            <h2 class="mt-3 text-2xl font-black text-white">No published hashes yet.</h2>
+            <p class="mt-3 text-zinc-300">Check back soon.</p>
           </div>
         `;
         return;
@@ -228,33 +186,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           ? `
             <section class="grid gap-5">
               <div>
-                <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">
                   Upcoming Trails
                 </p>
-                <h2 class="mt-2 text-2xl font-black">Next 4 Hashes</h2>
+                <h2 class="mt-2 text-2xl font-black text-white">Next 4 Hashes</h2>
               </div>
               ${upcomingCards.join("")}
             </section>
           `
           : `
-            <section class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
-              <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+            <section class="rounded-2xl border border-red-600/20 bg-zinc-900 p-6">
+              <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">
                 Upcoming Trails
               </p>
-              <h2 class="mt-3 text-2xl font-black">No upcoming hashes posted.</h2>
-              <p class="mt-3 text-stone-300">Check back soon.</p>
+              <h2 class="mt-3 text-2xl font-black text-white">No upcoming hashes posted.</h2>
+              <p class="mt-3 text-zinc-300">Check back soon.</p>
             </section>
           `;
 
       const pastSection =
         pastEvents.length > 0
           ? `
-            <section class="mt-10 grid gap-5 border-t border-orange-400/20 pt-8">
+            <section class="mt-10 grid gap-5 border-t border-red-700/30 pt-8">
               <div>
-                <p class="text-sm font-bold uppercase tracking-[0.25em] text-orange-300">
+                <p class="text-sm font-bold uppercase tracking-[0.25em] text-red-500">
                   Past Trails
                 </p>
-                <h2 class="mt-2 text-2xl font-black">Recent History</h2>
+                <h2 class="mt-2 text-2xl font-black text-white">Recent History</h2>
               </div>
               ${pastCards.join("")}
             </section>
@@ -271,9 +229,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       .then(renderEvents)
       .catch(() => {
         document.querySelector("#hareline-events").innerHTML = `
-          <div class="rounded-2xl border border-orange-400/20 bg-stone-900 p-6">
-            <h2 class="text-2xl font-black">Could not load Hare Line</h2>
-            <p class="mt-3 text-stone-300">Try refreshing the page.</p>
+          <div class="rounded-2xl border border-red-600/20 bg-zinc-900 p-6">
+            <h2 class="text-2xl font-black text-white">Could not load Hare Line</h2>
+            <p class="mt-3 text-zinc-300">Try refreshing the page.</p>
           </div>
         `;
       });
