@@ -2,11 +2,73 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="About S2H3">
-  <section class="mx-auto max-w-5xl px-6 py-10">
-    <h1 class="text-4xl font-black">About S2H3</h1>
-    <p class="mt-4 text-stone-300">
-      Sloppy Saturday Hash House Harriers is a drinking club with a running problem.
-    </p>
+<BaseLayout title="About T2H3 | True Trail Hash House Harriers">
+  <section class="mx-auto max-w-6xl px-6 py-10">
+    <div class="grid gap-8 overflow-hidden rounded-[2rem] border border-red-700/40 bg-black shadow-2xl shadow-red-950/20 md:grid-cols-[1fr_320px] md:items-center">
+      <div class="p-6 md:p-10">
+        <p class="text-sm font-black uppercase tracking-[0.3em] text-teal-300">
+          About True Trail
+        </p>
+
+        <h1 class="mt-3 text-4xl font-black text-white sm:text-5xl">
+          True Trail Hash House Harriers
+        </h1>
+
+        <p class="mt-5 max-w-3xl text-lg text-zinc-300">
+          True Trail Hash House Harriers is a drinking club with a running
+          problem. We follow flour, chase bad ideas, sing songs, and gather for
+          trail, circle, and general hash foolishness.
+        </p>
+
+        <p class="mt-4 max-w-3xl text-zinc-400">
+          New hashers are welcome. You do not need to be fast, serious, graceful,
+          or prepared. Bring a sense of humour, trail shoes, weather-appropriate
+          gear, and enough cash for hash cash when required.
+        </p>
+      </div>
+
+      <div class="flex items-center justify-center p-6">
+        <img
+          src="/images/logosmall.jpg"
+          alt="True Trail Hash House Harriers logo"
+          class="w-full max-w-[280px] rounded-2xl border-4 border-teal-400 bg-white p-3 shadow-2xl shadow-teal-950/40"
+        />
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <p class="text-sm font-black uppercase tracking-[0.25em] text-red-500">
+          Trail
+        </p>
+        <h2 class="mt-2 text-xl font-black text-white">Follow the marks</h2>
+        <p class="mt-2 text-zinc-400">
+          The hare lays trail. The pack follows. Sometimes the trail lies.
+          Sometimes the pack lies harder.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <p class="text-sm font-black uppercase tracking-[0.25em] text-red-500">
+          Circle
+        </p>
+        <h2 class="mt-2 text-xl font-black text-white">Songs and down-downs</h2>
+        <p class="mt-2 text-zinc-400">
+          After trail, the pack gathers for songs, accusations, announcements,
+          and the occasional terrible decision.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <p class="text-sm font-black uppercase tracking-[0.25em] text-red-500">
+          Pack
+        </p>
+        <h2 class="mt-2 text-xl font-black text-white">All paces welcome</h2>
+        <p class="mt-2 text-zinc-400">
+          Runners, walkers, stumblers, shortcutters, and visitors are welcome.
+          On-On!
+        </p>
+      </article>
+    </div>
   </section>
 </BaseLayout>
