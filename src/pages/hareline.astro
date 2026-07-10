@@ -30,6 +30,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     const clean = (value) => String(value || "").trim();
 
+    const normalizeExternalUrl = (value) => {
+      const url = clean(value);
+      if (!url) return "";
+      return /^https?:\/\//i.test(url) ? url : `https://${url.replace(/^\/\//, "")}`;
+    };
+
+    const paypalIcon = `
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#003087" d="M7.1 2h6.5c3.7 0 5.8 2 5.2 5.3-.8 4.1-3.7 5.7-7.3 5.7H9.7L8.6 19H4.8L7.1 2Z"/>
+        <path fill="#009CDE" d="M9.2 7h5.2c3.4 0 5.1 1.8 4.5 4.7-.7 3.4-3.2 4.8-6.3 4.8h-1.5L10.1 22H6.6L9.2 7Z" opacity=".92"/>
+        <path fill="#012169" d="M10.4 5.1h2.9c1.8 0 2.7.8 2.4 2.3-.4 1.7-1.6 2.4-3.2 2.4h-2.7l.6-4.7Z"/>
+      </svg>`;
+
     const escapeHtml = (value) =>
       clean(value)
         .replaceAll("&", "&amp;")
@@ -90,7 +103,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     async function renderEventCard(event) {
       const hasDirections = clean(event.mapUrl) !== "";
-      const hasPaypal = clean(event.paypalUrl) !== "";
+      const paypalUrl = normalizeExternalUrl(event.paypalUrl);
+      const hasPaypal = paypalUrl !== "";
       const hasFacebook = clean(event.facebookUrl) !== "";
 
       return `
@@ -126,7 +140,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                   }
                   ${
                     hasPaypal
-                      ? `<a href="${escapeHtml(event.paypalUrl)}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-zinc-700 px-4 py-2 font-bold text-zinc-100 hover:bg-zinc-800">Pay Hash Cash</a>`
+                      ? `<a href="${escapeHtml(paypalUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Pay Hash Cash with PayPal" class="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-bold text-zinc-100 hover:bg-zinc-800">${paypalIcon}<span>Pay Hash Cash</span></a>`
                       : ""
                   }
                 </div>
