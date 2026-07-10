@@ -18,10 +18,10 @@ const navItems = [
   </head>
 
   <body class="min-h-screen bg-stone-950 text-stone-100">
-    <header class="border-b border-orange-400/20 bg-stone-950/90">
+    <header class="border-b border-red-600/20 bg-stone-950/90">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <a href="/" class="flex flex-col leading-tight">
-          <span class="text-xl font-black tracking-tight text-orange-300">S2H3</span>
+          <span class="text-xl font-black tracking-tight text-red-500">S2H3</span>
           <span class="text-xs uppercase tracking-[0.25em] text-stone-400">
             Sloppy Saturday H3
           </span>
@@ -29,7 +29,7 @@ const navItems = [
 
         <nav class="hidden gap-5 text-sm font-bold text-stone-300 md:flex">
           {navItems.map((item) => (
-            <a href={item.href} class="hover:text-orange-300">
+            <a href={item.href} class="hover:text-red-500">
               {item.label}
             </a>
           ))}
@@ -41,7 +41,7 @@ const navItems = [
       <slot />
     </main>
 
-    <footer class="border-t border-orange-400/20 bg-stone-950 px-5 py-8 text-sm text-stone-500">
+    <footer class="border-t border-red-600/20 bg-stone-950 px-5 py-8 text-sm text-stone-500">
       <div class="mx-auto max-w-6xl">
         <p>S2H3 is an adult social hashing group. Participate at your own risk. On-On!</p>
       </div>
