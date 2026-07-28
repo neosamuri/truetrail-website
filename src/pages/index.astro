@@ -283,6 +283,11 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
                   : ""
               }
             </div>
+            ${
+              hasPaypal
+                ? `<p class="mt-3 text-sm text-zinc-300"><span class="font-bold uppercase text-red-500">E-Transfer:</span> <span class="select-all font-semibold text-white">Truetrailh3@gmail.com</span></p>`
+                : ""
+            }
           `
           : "";
 
