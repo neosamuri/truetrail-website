@@ -130,10 +130,28 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
       return isNaN(parsedTime.getTime()) ? null : parsedTime;
     };
 
+    const parseEventDate = (date) => {
+      const value = clean(date);
+      if (!value) return null;
+
+      // Handle ISO dates from Google Sheets without timezone shifting.
+      const isoMatch = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (isoMatch) {
+        const [, year, month, day] = isoMatch;
+        const parsedDate = new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0);
+        return isNaN(parsedDate.getTime()) ? null : parsedDate;
+      }
+
+      // Also accept readable dates such as "August 13 2026".
+      const parsedDate = new Date(value);
+      if (isNaN(parsedDate.getTime())) return null;
+      parsedDate.setHours(12, 0, 0, 0);
+      return parsedDate;
+    };
+
     const formatDate = (date) => {
-      if (!date) return "";
-      const parsedDate = new Date(`${clean(date)}T12:00:00`);
-      if (isNaN(parsedDate.getTime())) return clean(date);
+      const parsedDate = parseEventDate(date);
+      if (!parsedDate) return clean(date);
       return parsedDate.toLocaleDateString("en-CA", {
         weekday: "long",
         year: "numeric",
@@ -171,7 +189,14 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
       return parsed.data
         .filter((event) => clean(event.published).toUpperCase() === "TRUE")
-        .sort((a, b) => clean(a.date).localeCompare(clean(b.date)));
+        .sort((a, b) => {
+          const aDate = parseEventDate(a.date);
+          const bDate = parseEventDate(b.date);
+          if (!aDate && !bDate) return 0;
+          if (!aDate) return 1;
+          if (!bDate) return -1;
+          return aDate - bDate;
+        });
     }
 
     const getEventDateTime = (event, minutesToAdd = 0) => {
@@ -182,9 +207,10 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
       const parsedTime = parseTime(time);
       if (!parsedTime) return null;
 
-      const eventDate = new Date(`${date}T00:00:00`);
+      const eventDate = parseEventDate(date);
+      if (!eventDate) return null;
       eventDate.setHours(parsedTime.getHours(), parsedTime.getMinutes() + minutesToAdd, 0, 0);
-      return isNaN(eventDate.getTime()) ? null : eventDate;
+      return eventDate;
     };
 
     const getCountdown = (event) => {
@@ -206,8 +232,8 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
       today.setHours(0, 0, 0, 0);
 
       return events.find((event) => {
-        const eventDate = new Date(`${clean(event.date)}T00:00:00`);
-        return !isNaN(eventDate.getTime()) && eventDate >= today;
+        const eventDate = parseEventDate(event.date);
+        return eventDate && eventDate >= today;
       });
     };
 
@@ -298,14 +324,14 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
               </div>
 
               ${
-                clean(event.description)
-                  ? `<div class="mt-5 border-l-4 border-red-600 pl-4"><p class="text-lg leading-relaxed text-zinc-300">${escapeHtml(event.description)}</p></div>`
+                clean(event.theme)
+                  ? `<p class="mt-4 text-lg"><span class="font-black text-red-500">Theme:</span> <span class="font-bold text-white">${escapeHtml(event.theme)}</span></p>`
                   : ""
               }
 
               ${
-                clean(event.theme)
-                  ? `<p class="mt-4 text-lg"><span class="font-black text-red-500">Theme:</span> <span class="font-bold text-white">${escapeHtml(event.theme)}</span></p>`
+                clean(event.description)
+                  ? `<div class="mt-5 border-l-4 border-red-600 pl-4"><div class="whitespace-pre-line text-lg leading-8 text-zinc-300">${escapeHtml(event.description)}</div></div>`
                   : ""
               }
 
